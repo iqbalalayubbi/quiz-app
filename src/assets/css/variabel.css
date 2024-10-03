@@ -1,6 +1,10 @@
 :root {
   --primary: #a594f9;
   --secondary: #cdc1ff;
-  --white: #fff;
   --black: #525252;
+  --z-index-deep: -10;
+  --z-index-low: 10;
+  --z-index-surface: 20;
+  --z-index-high: 30;
+  --z-index-top: 40;
 }

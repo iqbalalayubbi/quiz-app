@@ -11,6 +11,10 @@ class Token extends BaseStorage {
   setToken(token: string): void {
     super.set(StorageKeys.USER_TOKEN, token);
   }
+
+  removeToken(): void {
+    super.remove(StorageKeys.USER_TOKEN);
+  }
 }
 
 export { Token };

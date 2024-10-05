@@ -3,6 +3,7 @@ const Colors = {
   SECONDARY: "#cdc1ff",
   BLACK: "#525252",
   WHITE: "#ffffff",
+  TRANSPARENT: "TRANSPARENT",
 };
 
 export { Colors };

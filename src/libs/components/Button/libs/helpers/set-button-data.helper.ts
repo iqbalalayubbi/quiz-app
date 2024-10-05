@@ -14,12 +14,12 @@ const setButtonData = (type: string): ButtonStatus => {
         defaultColor: Colors.WHITE,
 
         // hover
-        defaultHoverBg: Colors.SECONDARY,
+        defaultHoverBg: Colors.TRANSPARENT,
         defaultHoverBorderColor: Colors.SECONDARY,
-        defaultHoverColor: Colors.WHITE,
+        defaultHoverColor: Colors.PRIMARY,
 
         // active
-        defaultActiveBg: Colors.SECONDARY,
+        defaultActiveBg: Colors.PRIMARY,
         defaultActiveBorderColor: Colors.SECONDARY,
         defaultActiveColor: Colors.WHITE,
       };
@@ -32,12 +32,12 @@ const setButtonData = (type: string): ButtonStatus => {
         defaultColor: Colors.WHITE,
 
         // hover
-        defaultHoverBg: Colors.PRIMARY,
+        defaultHoverBg: Colors.TRANSPARENT,
         defaultHoverBorderColor: Colors.PRIMARY,
-        defaultHoverColor: Colors.WHITE,
+        defaultHoverColor: Colors.PRIMARY,
 
         // active
-        defaultActiveBg: Colors.PRIMARY,
+        defaultActiveBg: Colors.SECONDARY,
         defaultActiveBorderColor: Colors.PRIMARY,
         defaultActiveColor: Colors.WHITE,
       };

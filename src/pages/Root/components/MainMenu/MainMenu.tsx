@@ -1,0 +1,62 @@
+import { Flex, Modal } from "antd";
+import { Button } from "~/libs/components/components";
+// import { useCallback, useNavigate } from "~/libs/hooks/hooks";
+import { useCallback } from "~/libs/hooks/hooks";
+
+import styles from "./styles.module.css";
+// import { AppRoute } from "~/libs/enums/enums";
+// import { TokenStorage } from "~/libs/storage/storage";
+
+const MainMenu: React.FC = () => {
+  // const navigate = useNavigate();
+
+  const handleStartGame = useCallback(() => {
+    Modal.confirm({
+      title: "Start Quiz",
+      content: "Are you sure you want to start the quiz?",
+      // onOk: () => navigate(AppRoute.QUIZ),
+      okCancel: true,
+      centered: true,
+    });
+  }, []);
+
+  // const handleLogout = useCallback(() => {
+  //   Modal.error({
+  //     title: "Logout",
+  //     content: "Are you sure you want to exit?",
+  //     onOk: () => {
+  //       navigate(AppRoute.LOGIN);
+  //       TokenStorage.removeToken();
+  //     },
+  //     okCancel: true,
+  //     centered: true,
+  //   });
+  // }, []);
+
+  return (
+    <Flex
+      className={styles["container"]}
+      align="center"
+      justify="center"
+      vertical
+    >
+      <h1 className={styles["title"]}>Quizea</h1>
+      <Flex className={styles["buttons"]} gap={"16px"} vertical>
+        <Button
+          label="Start Quiz"
+          htmlType="button"
+          type="primary"
+          onClick={handleStartGame}
+        />
+        <Button
+          label="Exit"
+          htmlType="button"
+          type="secondary"
+          // onClick={handleLogout}
+        />
+      </Flex>
+    </Flex>
+  );
+};
+
+export { MainMenu };

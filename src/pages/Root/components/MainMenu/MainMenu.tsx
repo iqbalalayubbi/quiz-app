@@ -1,37 +1,36 @@
 import { Flex, Modal } from "antd";
 import { Button } from "~/libs/components/components";
-// import { useCallback, useNavigate } from "~/libs/hooks/hooks";
-import { useCallback } from "~/libs/hooks/hooks";
+import { useCallback, useNavigate } from "~/libs/hooks/hooks";
 
 import styles from "./styles.module.css";
-// import { AppRoute } from "~/libs/enums/enums";
-// import { TokenStorage } from "~/libs/storage/storage";
+import { AppRoute } from "~/libs/enums/enums";
+import { TokenStorage } from "~/libs/storage/storage";
 
 const MainMenu: React.FC = () => {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const handleStartGame = useCallback(() => {
     Modal.confirm({
       title: "Start Quiz",
       content: "Are you sure you want to start the quiz?",
-      // onOk: () => navigate(AppRoute.QUIZ),
+      onOk: () => navigate(AppRoute.QUIZ),
       okCancel: true,
       centered: true,
     });
-  }, []);
+  }, [navigate]);
 
-  // const handleLogout = useCallback(() => {
-  //   Modal.error({
-  //     title: "Logout",
-  //     content: "Are you sure you want to exit?",
-  //     onOk: () => {
-  //       navigate(AppRoute.LOGIN);
-  //       TokenStorage.removeToken();
-  //     },
-  //     okCancel: true,
-  //     centered: true,
-  //   });
-  // }, []);
+  const handleLogout = useCallback(() => {
+    Modal.error({
+      title: "Logout",
+      content: "Are you sure you want to exit?",
+      onOk: () => {
+        navigate(AppRoute.LOGIN);
+        TokenStorage.removeToken();
+      },
+      okCancel: true,
+      centered: true,
+    });
+  }, [navigate]);
 
   return (
     <Flex
@@ -52,7 +51,7 @@ const MainMenu: React.FC = () => {
           label="Exit"
           htmlType="button"
           type="secondary"
-          // onClick={handleLogout}
+          onClick={handleLogout}
         />
       </Flex>
     </Flex>

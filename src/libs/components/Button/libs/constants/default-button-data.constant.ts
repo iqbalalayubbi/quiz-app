@@ -1,4 +1,4 @@
-import { Colors } from "~/libs/enums/enum";
+import { Colors } from "~/libs/enums/enums";
 
 const DefaultButtonData = {
   defaultBg: Colors.PRIMARY,

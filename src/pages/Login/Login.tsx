@@ -1,10 +1,26 @@
 import { Form, Input, Flex } from "antd";
 import { Button } from "~/libs/components/components";
 import { FieldTypes } from "./libs/types/types";
+import type { FormProps } from "antd";
+import { USERNAME, PASSWORD } from "./libs/constants/constants";
 
 import styles from "./styles.module.css";
+import { TokenStorage } from "~/libs/storage/storage";
+import { useNavigate } from "~/libs/hooks/hooks";
+import { AppRoute } from "~/libs/enums/enums";
 
 const Login: React.FC = () => {
+  const navigate = useNavigate();
+
+  const handleLoginUser: FormProps<FieldTypes>["onFinish"] = (values) => {
+    const { username, password } = values;
+
+    if (username === USERNAME && password === PASSWORD) {
+      TokenStorage.setToken(username);
+      navigate(AppRoute.ROOT);
+    }
+  };
+
   return (
     <Flex className={styles["main-content"]} align="center" vertical>
       <div className={styles["right-top-circles"]}>
@@ -28,6 +44,7 @@ const Login: React.FC = () => {
           className={styles["form-login"]}
           name="form-login"
           autoComplete="off"
+          onFinish={handleLoginUser}
         >
           <Form.Item<FieldTypes>
             name="username"
@@ -48,4 +65,4 @@ const Login: React.FC = () => {
   );
 };
 
-export default Login;
+export { Login };

@@ -1,6 +1,6 @@
 import { ButtonStatus } from "../types/types";
 import { DefaultButtonData } from "../constants/constants";
-import { Colors } from "~/libs/enums/enum";
+import { Colors } from "~/libs/enums/enums";
 
 const setButtonData = (type: string): ButtonStatus => {
   let buttonData: ButtonStatus = DefaultButtonData;

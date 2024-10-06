@@ -1,8 +1,8 @@
 const AppRoute = {
   ANY: "*",
-  LOGIN: "login",
+  LOGIN: "/login",
   ROOT: "/",
-  QUIZ: "quiz",
+  QUIZ: "/quiz",
 };
 
 export { AppRoute };

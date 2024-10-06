@@ -1,9 +1,12 @@
-import { Flex } from "antd";
-import { ClockCircleOutlined, LogoutOutlined } from "@ant-design/icons";
-import { QuizAnswer } from "~/libs/components/components";
+import {
+  Flex,
+  ClockCircleOutlined,
+  LogoutOutlined,
+} from "~/libs/components/components";
 import { QuizContext } from "~/libs/context/contexts";
-import { useContext, useState } from "~/libs/hooks/hooks";
+import { useContext, useState, useCallback } from "~/libs/hooks/hooks";
 import { type QuizContextType } from "~/libs/context/quiz/QuizContext";
+import { Question } from "./libs/components/Question/Question";
 import {
   DEFAULT_SCORE,
   CORRECT_POINT,
@@ -17,15 +20,18 @@ const Quiz: React.FC = () => {
   const { currentQuestion } = quizData;
   const quizQuestion = questions[currentQuestion];
 
-  const [score, setScore] = useState<number>(DEFAULT_SCORE);
+  const [, setScore] = useState<number>(DEFAULT_SCORE);
 
-  const onAnswer = (answer: string) => {
-    if (answer === quizQuestion.correctAnswer) {
-      setScore((prevScore) => prevScore + CORRECT_POINT);
-    }
+  const onAnswer = useCallback(
+    (answer: string) => {
+      if (answer === quizQuestion.correctAnswer) {
+        setScore((prevScore) => prevScore + CORRECT_POINT);
+      }
 
-    quizData.currentQuestion++;
-  };
+      quizData.currentQuestion++;
+    },
+    [setScore, quizData, quizQuestion]
+  );
 
   return (
     <>
@@ -40,29 +46,12 @@ const Quiz: React.FC = () => {
           <span>Logout</span>
         </Flex>
       </Flex>
-      <Flex
-        className={styles["container"]}
-        align="center"
-        justify="center"
-        gap={"3px"}
-        vertical
-      >
-        <Flex align="center" gap={"8px"} vertical>
-          <h3 className={styles["question-number"]}>Question 1</h3>
-          <h5 className={styles["sub-question-number"]}>
-            {currentQuestion + START_QUESTION_NUMBER}/10
-          </h5>
-          <h5 className={styles["score"]}>{score}</h5>
-          <h5 className={styles["question"]}>{quizQuestion.question}</h5>
-        </Flex>
-        <Flex className={styles["answers"]} gap={"24px"} vertical>
-          {quizQuestion.answers.map((answer) => {
-            return (
-              <QuizAnswer key={answer} answer={answer} onAnswer={onAnswer} />
-            );
-          })}
-        </Flex>
-      </Flex>
+      <Question
+        currentQuestionNumber={START_QUESTION_NUMBER + quizData.currentQuestion}
+        totalQuestion={questions.length}
+        quizQuestion={quizQuestion}
+        onAnswer={onAnswer}
+      />
     </>
   );
 };

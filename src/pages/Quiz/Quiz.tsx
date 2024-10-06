@@ -10,12 +10,13 @@ import styles from "./styles.module.css";
 
 const Quiz: React.FC = () => {
   const { questions, quizData } = useContext(QuizContext) as QuizContextType;
+  const { currentQuestion } = quizData;
 
   const [score, setScore] = useState<number>(DEFAULT_SCORE);
 
   const onAnswer = (answer: string) => {
-    if (answer === questions[quizData.currentQuestion].correctAnswer) {
-      setScore(score + CORRECT_POINT);
+    if (answer === questions[currentQuestion].correctAnswer) {
+      setScore((prevScore) => prevScore + CORRECT_POINT);
     }
 
     quizData.currentQuestion++;
@@ -44,12 +45,13 @@ const Quiz: React.FC = () => {
         <Flex align="center" gap={"8px"} vertical>
           <h3 className={styles["question-number"]}>Question 1</h3>
           <h5 className={styles["sub-question-number"]}>1/10</h5>
+          <h5 className={styles["score"]}>{score}</h5>
           <h5 className={styles["question"]}>
-            {questions[quizData.currentQuestion].question}
+            {questions[currentQuestion].question}
           </h5>
         </Flex>
         <Flex className={styles["answers"]} gap={"24px"} vertical>
-          {questions[quizData.currentQuestion].answers.map((answer) => {
+          {questions[currentQuestion].answers.map((answer) => {
             return (
               <QuizAnswer key={answer} answer={answer} onAnswer={onAnswer} />
             );

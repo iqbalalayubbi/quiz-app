@@ -2,17 +2,12 @@ import styles from "./styles.module.css";
 
 type Properties = {
   answer: string;
-  isCorrect: boolean;
-  onAnswer: (answer: string, isCorrect: boolean) => void;
+  onAnswer: (answer: string) => void;
 };
 
-const QuizAnswer: React.FC<Properties> = ({
-  answer,
-  isCorrect = false,
-  onAnswer,
-}: Properties) => {
+const QuizAnswer: React.FC<Properties> = ({ answer, onAnswer }: Properties) => {
   const onClick = () => {
-    onAnswer(answer, isCorrect);
+    onAnswer(answer);
   };
 
   return (

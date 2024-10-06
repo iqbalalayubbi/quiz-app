@@ -2,16 +2,23 @@ import { Flex } from "antd";
 import { ClockCircleOutlined, LogoutOutlined } from "@ant-design/icons";
 import { QuizAnswer } from "~/libs/components/components";
 import { QuizContext } from "~/libs/context/contexts";
-import { useContext } from "~/libs/hooks/hooks";
+import { useContext, useState } from "~/libs/hooks/hooks";
 import { type QuizContextType } from "~/libs/context/quiz/QuizContext";
+import { DEFAULT_SCORE, CORRECT_POINT } from "./libs/constants/constants";
 
 import styles from "./styles.module.css";
 
 const Quiz: React.FC = () => {
   const { questions, quizData } = useContext(QuizContext) as QuizContextType;
 
-  const onAnswer = (answer: string, isCorrect: boolean) => {
-    console.log(answer, isCorrect);
+  const [score, setScore] = useState<number>(DEFAULT_SCORE);
+
+  const onAnswer = (answer: string) => {
+    if (answer === questions[quizData.currentQuestion].correctAnswer) {
+      setScore(score + CORRECT_POINT);
+    }
+
+    quizData.currentQuestion++;
   };
 
   return (
@@ -42,10 +49,11 @@ const Quiz: React.FC = () => {
           </h5>
         </Flex>
         <Flex className={styles["answers"]} gap={"24px"} vertical>
-          <QuizAnswer answer="320 feet" isCorrect={false} onAnswer={onAnswer} />
-          <QuizAnswer answer="332 feet" isCorrect={true} onAnswer={onAnswer} />
-          <QuizAnswer answer="340 feet" isCorrect={false} onAnswer={onAnswer} />
-          <QuizAnswer answer="350 feet" isCorrect={false} onAnswer={onAnswer} />
+          {questions[quizData.currentQuestion].answers.map((answer) => {
+            return (
+              <QuizAnswer key={answer} answer={answer} onAnswer={onAnswer} />
+            );
+          })}
         </Flex>
       </Flex>
     </>

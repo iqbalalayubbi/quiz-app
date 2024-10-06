@@ -1,6 +1,6 @@
 type QuestionType = {
   question: string;
-  answer: string[];
+  answers: string[];
   correctAnswer: string;
 };
 

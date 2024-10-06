@@ -19,12 +19,12 @@ export const QuizProvider: React.FC<React.PropsWithChildren> = ({
   const [questions, setQuestions] = useState<QuestionType[]>([
     {
       question: "What is the capital of France?",
-      answer: ["Paris", "London", "Berlin", "Madrid"],
+      answers: ["Paris", "London", "Berlin", "Madrid"],
       correctAnswer: "Paris",
     },
     {
       question: "Who is the current Prime Minister of the United Kingdom?",
-      answer: [
+      answers: [
         "Boris Johnson",
         "David Cameron",
         "Nigel Farage",

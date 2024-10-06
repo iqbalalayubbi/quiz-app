@@ -21,6 +21,9 @@ const Quiz: React.FC = () => {
   const quizQuestion = questions[currentQuestion];
 
   const [, setScore] = useState<number>(DEFAULT_SCORE);
+  const totalQuestion = questions.length;
+  const currentQuestionNumber =
+    START_QUESTION_NUMBER + quizData.currentQuestion;
 
   const onAnswer = useCallback(
     (answer: string) => {
@@ -28,9 +31,11 @@ const Quiz: React.FC = () => {
         setScore((prevScore) => prevScore + CORRECT_POINT);
       }
 
-      quizData.currentQuestion++;
+      if (currentQuestionNumber < totalQuestion) {
+        quizData.currentQuestion++;
+      }
     },
-    [setScore, quizData, quizQuestion]
+    [setScore, quizData, quizQuestion, currentQuestionNumber, totalQuestion]
   );
 
   return (
@@ -46,9 +51,10 @@ const Quiz: React.FC = () => {
           <span>Logout</span>
         </Flex>
       </Flex>
+      {}
       <Question
-        currentQuestionNumber={START_QUESTION_NUMBER + quizData.currentQuestion}
-        totalQuestion={questions.length}
+        currentQuestionNumber={currentQuestionNumber}
+        totalQuestion={totalQuestion}
         quizQuestion={quizQuestion}
         onAnswer={onAnswer}
       />

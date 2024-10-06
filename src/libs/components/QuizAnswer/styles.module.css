@@ -1,0 +1,33 @@
+.button-answer {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  width: 100%;
+  padding: 4px 24px;
+  border: 2px solid var(--primary);
+  background-color: transparent;
+  color: var(--primary);
+  cursor: pointer;
+  border-radius: 16px;
+}
+
+.button-answer:hover {
+  border: 2px solid var(--secondary);
+  color: var(--secondary);
+}
+
+.circle {
+  width: 20px;
+  height: 20px;
+  border: 3px solid var(--primary);
+  border-radius: 100%;
+}
+
+.button-answer:hover > .circle {
+  border: 3px solid var(--secondary);
+}
+
+.answer {
+  font-size: 16px;
+  font-weight: 500;
+}

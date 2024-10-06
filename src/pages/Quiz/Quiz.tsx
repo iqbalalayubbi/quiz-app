@@ -1,10 +1,15 @@
 import { Flex } from "antd";
 import { ClockCircleOutlined, LogoutOutlined } from "@ant-design/icons";
 import { QuizAnswer } from "~/libs/components/components";
+import { QuizContext } from "~/libs/context/contexts";
+import { useContext } from "~/libs/hooks/hooks";
+import { type QuizContextType } from "~/libs/context/quiz/QuizContext";
 
 import styles from "./styles.module.css";
 
 const Quiz: React.FC = () => {
+  const { questions, quizData } = useContext(QuizContext) as QuizContextType;
+
   const onAnswer = (answer: string, isCorrect: boolean) => {
     console.log(answer, isCorrect);
   };
@@ -33,7 +38,7 @@ const Quiz: React.FC = () => {
           <h3 className={styles["question-number"]}>Question 1</h3>
           <h5 className={styles["sub-question-number"]}>1/10</h5>
           <h5 className={styles["question"]}>
-            How tall is One World Trade Center in New York City?
+            {questions[quizData.currentQuestion].question}
           </h5>
         </Flex>
         <Flex className={styles["answers"]} gap={"24px"} vertical>

@@ -7,6 +7,7 @@ import { AppRoute } from "./libs/enums/enums";
 import { Login } from "~/pages/Login/Login";
 import { Root } from "~/pages/Root/Root";
 import { Quiz } from "./pages/Quiz/Quiz";
+import { QuizProvider } from "./libs/context/providers";
 
 const router = createBrowserRouter([
   {
@@ -22,7 +23,14 @@ const router = createBrowserRouter([
   {
     path: AppRoute.QUIZ,
     element: (
-      <ProtectedRoute component={<Quiz />} redirectTo={AppRoute.LOGIN} />
+      <ProtectedRoute
+        component={
+          <QuizProvider>
+            <Quiz />
+          </QuizProvider>
+        }
+        redirectTo={AppRoute.LOGIN}
+      />
     ),
   },
 ]);

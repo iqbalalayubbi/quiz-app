@@ -4,7 +4,11 @@ import { QuizAnswer } from "~/libs/components/components";
 import { QuizContext } from "~/libs/context/contexts";
 import { useContext, useState } from "~/libs/hooks/hooks";
 import { type QuizContextType } from "~/libs/context/quiz/QuizContext";
-import { DEFAULT_SCORE, CORRECT_POINT } from "./libs/constants/constants";
+import {
+  DEFAULT_SCORE,
+  CORRECT_POINT,
+  START_QUESTION_NUMBER,
+} from "./libs/constants/constants";
 
 import styles from "./styles.module.css";
 
@@ -45,7 +49,9 @@ const Quiz: React.FC = () => {
       >
         <Flex align="center" gap={"8px"} vertical>
           <h3 className={styles["question-number"]}>Question 1</h3>
-          <h5 className={styles["sub-question-number"]}>1/10</h5>
+          <h5 className={styles["sub-question-number"]}>
+            {currentQuestion + START_QUESTION_NUMBER}/10
+          </h5>
           <h5 className={styles["score"]}>{score}</h5>
           <h5 className={styles["question"]}>{quizQuestion.question}</h5>
         </Flex>

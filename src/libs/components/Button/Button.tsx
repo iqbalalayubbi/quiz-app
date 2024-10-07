@@ -10,16 +10,18 @@ import { setButtonData } from "./libs/helpers/helpers";
 type Properties = {
   htmlType: HtmlInputTypes;
   type: ButtonTypes;
+  name: string;
   label: string;
   icon?: React.ReactNode;
   className?: string;
-  onClick?: () => void;
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
   loading?: boolean;
 };
 
 const Button: React.FC<Properties> = ({
   htmlType,
   type,
+  name,
   label,
   onClick,
   loading,
@@ -36,6 +38,7 @@ const Button: React.FC<Properties> = ({
     >
       <ButtonAntd
         className={styles["button"]}
+        name={name}
         onClick={onClick}
         htmlType={htmlType}
         loading={loading}

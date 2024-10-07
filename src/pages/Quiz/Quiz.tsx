@@ -6,7 +6,7 @@ import {
 import { QuizContext } from "~/libs/context/contexts";
 import { useContext, useState, useCallback } from "~/libs/hooks/hooks";
 import { type QuizContextType } from "~/libs/context/quiz/QuizContext";
-import { Question } from "./libs/components/Question/Question";
+import { Question, Result } from "./libs/components/components";
 import {
   DEFAULT_SCORE,
   CORRECT_POINT,
@@ -21,6 +21,8 @@ const Quiz: React.FC = () => {
   const quizQuestion = questions[currentQuestion];
 
   const [, setScore] = useState<number>(DEFAULT_SCORE);
+  const [isQuestionEnd, setIsQuestionEnd] = useState<boolean>(false);
+
   const totalQuestion = questions.length;
   const currentQuestionNumber =
     START_QUESTION_NUMBER + quizData.currentQuestion;
@@ -33,6 +35,8 @@ const Quiz: React.FC = () => {
 
       if (currentQuestionNumber < totalQuestion) {
         quizData.currentQuestion++;
+      } else {
+        setIsQuestionEnd(true);
       }
     },
     [setScore, quizData, quizQuestion, currentQuestionNumber, totalQuestion]
@@ -51,13 +55,16 @@ const Quiz: React.FC = () => {
           <span>Logout</span>
         </Flex>
       </Flex>
-      {}
-      <Question
-        currentQuestionNumber={currentQuestionNumber}
-        totalQuestion={totalQuestion}
-        quizQuestion={quizQuestion}
-        onAnswer={onAnswer}
-      />
+      {isQuestionEnd ? (
+        <Result />
+      ) : (
+        <Question
+          currentQuestionNumber={currentQuestionNumber}
+          totalQuestion={totalQuestion}
+          quizQuestion={quizQuestion}
+          onAnswer={onAnswer}
+        />
+      )}
     </>
   );
 };

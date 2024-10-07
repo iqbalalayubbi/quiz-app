@@ -44,12 +44,14 @@ const MainMenu: React.FC = () => {
         <Button
           label="Start Quiz"
           htmlType="button"
+          name="startQuiz"
           type="primary"
           onClick={handleStartGame}
         />
         <Button
           label="Exit"
           htmlType="button"
+          name="logout"
           type="secondary"
           onClick={handleLogout}
         />

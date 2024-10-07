@@ -1,0 +1,17 @@
+.container {
+  margin-top: 60px;
+}
+
+.title {
+  color: var(--black);
+}
+
+.score {
+  font-size: 80px;
+  color: var(--secondary);
+}
+
+.buttons {
+  margin-top: 20px;
+  width: 25%;
+}

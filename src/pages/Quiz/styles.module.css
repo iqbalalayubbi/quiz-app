@@ -21,27 +21,6 @@
   color: red;
 }
 
-.container {
-  margin-top: 60px;
-}
-
-.question-number {
-  font-size: 24px;
-  color: var(--secondary);
-}
-
-.sub-question-number {
-  font-size: 16px;
-  color: var(--black);
-  opacity: 0.5;
-}
-
-.question {
-  font-size: 16px;
-  color: var(--black);
-}
-
-.answers {
-  margin-top: 24px;
-  width: 25%;
+.loading-container {
+  height: 50vh;
 }

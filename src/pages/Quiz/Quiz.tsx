@@ -2,6 +2,7 @@ import {
   Flex,
   ClockCircleOutlined,
   LogoutOutlined,
+  Spin,
 } from "~/libs/components/components";
 import { QuizContext } from "~/libs/context/contexts";
 import { useContext, useState, useCallback } from "~/libs/hooks/hooks";
@@ -16,16 +17,17 @@ import {
 import styles from "./styles.module.css";
 
 const Quiz: React.FC = () => {
-  const { questions, quizData } = useContext(QuizContext) as QuizContextType;
-  const { currentQuestion } = quizData;
-  const quizQuestion = questions[currentQuestion];
+  const { questions, quizData, isLoading } = useContext(
+    QuizContext
+  ) as QuizContextType;
+  const quizQuestion = questions[quizData.currentQuestion];
 
-  const [, setScore] = useState<number>(DEFAULT_SCORE);
+  const [score, setScore] = useState<number>(DEFAULT_SCORE);
   const [isQuestionEnd, setIsQuestionEnd] = useState<boolean>(false);
-
   const totalQuestion = questions.length;
-  const currentQuestionNumber =
-    START_QUESTION_NUMBER + quizData.currentQuestion;
+  const [currentQuestionNumber, setCurrentQuestionNumber] = useState<number>(
+    START_QUESTION_NUMBER
+  );
 
   const onAnswer = useCallback(
     (answer: string) => {
@@ -35,6 +37,9 @@ const Quiz: React.FC = () => {
 
       if (currentQuestionNumber < totalQuestion) {
         quizData.currentQuestion++;
+        setCurrentQuestionNumber(
+          (prevQuestionNumber) => prevQuestionNumber + START_QUESTION_NUMBER
+        );
       } else {
         setIsQuestionEnd(true);
       }
@@ -56,7 +61,15 @@ const Quiz: React.FC = () => {
         </Flex>
       </Flex>
       {isQuestionEnd ? (
-        <Result />
+        <Result score={score} />
+      ) : isLoading ? (
+        <Flex
+          className={styles["loading-container"]}
+          justify="center"
+          align="center"
+        >
+          <Spin size="large" />
+        </Flex>
       ) : (
         <Question
           currentQuestionNumber={currentQuestionNumber}

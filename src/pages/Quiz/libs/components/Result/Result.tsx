@@ -4,7 +4,11 @@ import { AppRoute } from "~/libs/enums/enums";
 
 import styles from "./styles.module.css";
 
-const Result: React.FC = () => {
+type Properties = {
+  score: number;
+};
+
+const Result: React.FC<Properties> = ({ score }: Properties) => {
   const navigate = useNavigate();
   const PLAY_AGAIN = "playAgain";
 
@@ -30,7 +34,7 @@ const Result: React.FC = () => {
   return (
     <Flex className={styles["container"]} align="center" vertical>
       <h1 className={styles["title"]}>Your Score</h1>
-      <h1 className={styles["score"]}>80</h1>
+      <h1 className={styles["score"]}>{score}</h1>
       <Flex className={styles["buttons"]} align="center" gap={"16px"} vertical>
         <Button
           type="primary"

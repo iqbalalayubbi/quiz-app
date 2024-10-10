@@ -36,7 +36,9 @@ const Question: React.FC<Properties> = ({
       vertical
     >
       <Flex align="center" gap={"8px"} vertical>
-        <h3 className={styles["question-number"]}>Question 1</h3>
+        <h3 className={styles["question-number"]}>
+          Question {currentQuestionNumber}
+        </h3>
         <h5 className={styles["sub-question-number"]}>
           {currentQuestionNumber}/{totalQuestion}
         </h5>

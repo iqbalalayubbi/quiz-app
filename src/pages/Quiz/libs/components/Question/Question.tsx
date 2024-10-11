@@ -39,10 +39,14 @@ const Question: React.FC<Properties> = ({
         <h3 className={styles["question-number"]}>
           Question {currentQuestionNumber}
         </h3>
+        <h5 />
         <h5 className={styles["sub-question-number"]}>
           {currentQuestionNumber}/{totalQuestion}
         </h5>
-        <h5 className={styles["question"]}>{quizQuestion.question}</h5>
+        <h5
+          dangerouslySetInnerHTML={{ __html: quizQuestion.question }}
+          className={styles["question"]}
+        />
       </Flex>
       <Flex className={styles["answers"]} gap={"24px"} vertical>
         {quizQuestion.answers.map((answer) => {

@@ -1,17 +1,27 @@
 import { Flex, Button, Modal } from "~/libs/components/components";
 import { useCallback, useNavigate } from "~/libs/hooks/hooks";
+import { combineClassNames } from "~/libs/helpers/helpers";
 import { AppRoute } from "~/libs/enums/enums";
 
 import styles from "./styles.module.css";
-import { combineClassNames } from "~/libs/helpers/helpers";
 
 type Properties = {
   score: number;
+  totalQuestion: number;
+  totalAnswer: number;
 };
 
-const Result: React.FC<Properties> = ({ score }: Properties) => {
+const Result: React.FC<Properties> = ({
+  score,
+  totalQuestion,
+  totalAnswer,
+}: Properties) => {
   const navigate = useNavigate();
+
   const PLAY_AGAIN = "playAgain";
+
+  const correctAnswer = score / totalQuestion;
+  const wrongAnswer = totalQuestion - correctAnswer;
 
   const handleClick = useCallback(
     (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -46,7 +56,7 @@ const Result: React.FC<Properties> = ({ score }: Properties) => {
           align="center"
         >
           <h3 className={styles["title"]}>Answered</h3>
-          <h3 className={styles["value"]}>8</h3>
+          <h3 className={styles["value"]}>{totalAnswer}</h3>
         </Flex>
         <Flex
           className={combineClassNames(
@@ -57,7 +67,7 @@ const Result: React.FC<Properties> = ({ score }: Properties) => {
           align="center"
         >
           <h3 className={styles["title"]}>Correct</h3>
-          <h3 className={styles["value"]}>6</h3>
+          <h3 className={styles["value"]}>{correctAnswer}</h3>
         </Flex>
         <Flex
           className={combineClassNames(
@@ -68,7 +78,7 @@ const Result: React.FC<Properties> = ({ score }: Properties) => {
           align="center"
         >
           <h3 className={styles["title"]}>Wrong</h3>
-          <h3 className={styles["value"]}>2</h3>
+          <h3 className={styles["value"]}>{wrongAnswer}</h3>
         </Flex>
       </Flex>
       <Flex className={styles["buttons"]} align="center" gap={"16px"} vertical>

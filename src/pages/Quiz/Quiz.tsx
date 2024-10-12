@@ -12,6 +12,8 @@ import {
   DEFAULT_SCORE,
   CORRECT_POINT,
   START_QUESTION_NUMBER,
+  QUESTION_STEP,
+  NO_ANSWERED,
 } from "./libs/constants/constants";
 
 import styles from "./styles.module.css";
@@ -20,17 +22,21 @@ const Quiz: React.FC = () => {
   const { questions, quizData, isLoading } = useContext(
     QuizContext
   ) as QuizContextType;
+
   const quizQuestion = questions[quizData.currentQuestion];
+  const totalQuestion = questions.length;
 
   const [score, setScore] = useState<number>(DEFAULT_SCORE);
   const [isQuestionEnd, setIsQuestionEnd] = useState<boolean>(false);
-  const totalQuestion = questions.length;
   const [currentQuestionNumber, setCurrentQuestionNumber] = useState<number>(
     START_QUESTION_NUMBER
   );
+  const [totalAnswer, setTotalAnswer] = useState<number>(NO_ANSWERED);
 
   const onAnswer = useCallback(
     (answer: string) => {
+      setTotalAnswer((prevTotalAnswer) => prevTotalAnswer + QUESTION_STEP);
+
       if (answer === quizQuestion.correctAnswer) {
         setScore((prevScore) => prevScore + CORRECT_POINT);
       }
@@ -61,7 +67,11 @@ const Quiz: React.FC = () => {
         </Flex>
       </Flex>
       {isQuestionEnd ? (
-        <Result score={score} />
+        <Result
+          score={score}
+          totalQuestion={totalQuestion}
+          totalAnswer={totalAnswer}
+        />
       ) : isLoading ? (
         <Flex
           className={styles["loading-container"]}

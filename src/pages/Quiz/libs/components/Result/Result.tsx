@@ -3,6 +3,7 @@ import { useCallback, useNavigate } from "~/libs/hooks/hooks";
 import { AppRoute } from "~/libs/enums/enums";
 
 import styles from "./styles.module.css";
+import { combineClassNames } from "~/libs/helpers/helpers";
 
 type Properties = {
   score: number;
@@ -35,6 +36,41 @@ const Result: React.FC<Properties> = ({ score }: Properties) => {
     <Flex className={styles["container"]} align="center" vertical>
       <h1 className={styles["title"]}>Your Score</h1>
       <h1 className={styles["score"]}>{score}</h1>
+      <Flex className={styles["data-container"]} gap={16} justify="center">
+        <Flex
+          className={combineClassNames(
+            styles["answered-container"],
+            styles["data"]
+          )}
+          justify="space-between"
+          align="center"
+        >
+          <h3 className={styles["title"]}>Answered</h3>
+          <h3 className={styles["value"]}>8</h3>
+        </Flex>
+        <Flex
+          className={combineClassNames(
+            styles["correct-container"],
+            styles["data"]
+          )}
+          justify="space-between"
+          align="center"
+        >
+          <h3 className={styles["title"]}>Correct</h3>
+          <h3 className={styles["value"]}>6</h3>
+        </Flex>
+        <Flex
+          className={combineClassNames(
+            styles["wrong-container"],
+            styles["data"]
+          )}
+          justify="space-between"
+          align="center"
+        >
+          <h3 className={styles["title"]}>Wrong</h3>
+          <h3 className={styles["value"]}>2</h3>
+        </Flex>
+      </Flex>
       <Flex className={styles["buttons"]} align="center" gap={"16px"} vertical>
         <Button
           type="primary"

@@ -2,7 +2,7 @@
   margin-top: 60px;
 }
 
-.title {
+.title:first {
   color: var(--black);
 }
 
@@ -11,7 +11,35 @@
   color: var(--secondary);
 }
 
+.data-container {
+  width: 100%;
+}
+
+.data {
+  border-radius: 4px;
+  padding: 4px 8px;
+  width: 12%;
+  color: white;
+  font-size: 14px;
+}
+
+.data .value {
+  font-weight: 600;
+}
+
+.answered-container {
+  background-color: var(--black);
+}
+
+.correct-container {
+  background-color: var(--green);
+}
+
+.wrong-container {
+  background-color: var(--red);
+}
+
 .buttons {
-  margin-top: 20px;
+  margin-top: 40px;
   width: 25%;
 }

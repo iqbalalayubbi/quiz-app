@@ -13,7 +13,10 @@ const QuizAnswer: React.FC<Properties> = ({ answer, onAnswer }: Properties) => {
   return (
     <button className={styles["button-answer"]} onClick={onClick}>
       <div className={styles["circle"]}></div>
-      <h5 className={styles["answer"]}>{answer}</h5>
+      <h5
+        className={styles["answer"]}
+        dangerouslySetInnerHTML={{ __html: answer }}
+      />
     </button>
   );
 };

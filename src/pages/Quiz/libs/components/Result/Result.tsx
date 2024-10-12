@@ -1,5 +1,7 @@
 import { Flex, Button, Modal } from "~/libs/components/components";
-import { useCallback, useNavigate } from "~/libs/hooks/hooks";
+import { useCallback, useNavigate, useContext } from "~/libs/hooks/hooks";
+import { TimerContextType } from "~/libs/context/types";
+import { TimerContext } from "~/libs/context/contexts";
 import { combineClassNames } from "~/libs/helpers/helpers";
 import { AppRoute } from "~/libs/enums/enums";
 
@@ -9,38 +11,39 @@ type Properties = {
   score: number;
   totalQuestion: number;
   totalAnswer: number;
+  createNewQuestion: () => void;
 };
 
 const Result: React.FC<Properties> = ({
   score,
   totalQuestion,
   totalAnswer,
+  createNewQuestion,
 }: Properties) => {
   const navigate = useNavigate();
-
-  const PLAY_AGAIN = "playAgain";
+  const { resetTimer } = useContext(TimerContext) as TimerContextType;
 
   const correctAnswer = score / totalQuestion;
   const wrongAnswer = totalQuestion - correctAnswer;
 
-  const handleClick = useCallback(
-    (event: React.MouseEvent<HTMLButtonElement>) => {
-      const { name } = event.target as HTMLButtonElement;
+  const handlePlayAgain = useCallback(() => {
+    Modal.confirm({
+      title: "Play Again",
+      content: "Are you sure you want to play again?",
+      onOk: () => {
+        createNewQuestion();
+        resetTimer();
+      },
+      okCancel: true,
+      centered: true,
+    });
+  }, [createNewQuestion, resetTimer]);
 
-      if (name == PLAY_AGAIN) {
-        Modal.confirm({
-          title: "Play Again",
-          content: "Are you sure you want to play again?",
-          onOk: () => window.location.reload(),
-          okCancel: true,
-          centered: true,
-        });
-      } else {
-        navigate(AppRoute.ROOT);
-      }
-    },
-    [navigate]
-  );
+  const handleBackToMenu = () => {
+    createNewQuestion();
+    resetTimer();
+    navigate(AppRoute.ROOT);
+  };
 
   return (
     <Flex className={styles["container"]} align="center" vertical>
@@ -87,14 +90,14 @@ const Result: React.FC<Properties> = ({
           name="playAgain"
           htmlType="button"
           label="Play Again"
-          onClick={handleClick}
+          onClick={handlePlayAgain}
         />
         <Button
           type="secondary"
           name="backMenu"
           htmlType="button"
           label="Back To Menu"
-          onClick={handleClick}
+          onClick={handleBackToMenu}
         />
       </Flex>
     </Flex>

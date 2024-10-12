@@ -1,15 +1,12 @@
 import { createContext } from "~/libs/components/components";
-import { useState, useRef } from "~/libs/hooks/hooks";
+import { useState, useRef, useEffect } from "~/libs/hooks/hooks";
 import { QuestionType, QuizData } from "./libs/types/types";
 import { QUIZ_DATA_DEFAULT_VALUE } from "./libs/constants/constants";
-import { useEffect } from "react";
 import { QuizApi } from "~/libs/api/api";
-
-type UpdateQuizType = (QuestionData: QuestionType[]) => QuestionType[];
 
 export type QuizContextType = {
   questions: QuestionType[];
-  updateQuiz: UpdateQuizType;
+  resetQuiz: () => void;
   quizData: QuizData;
   isLoading: boolean;
 };
@@ -58,16 +55,16 @@ export const QuizProvider: React.FC<React.PropsWithChildren> = ({
     }));
   };
 
-  useEffect(() => {
-    const getQuizApi = async () => {
-      setIsLoading(true);
-      const response = await QuizApi.getQuizData();
-      const { results } = response;
-      const newQuestions = mappedQuestions(results);
-      setQuestions(newQuestions);
-      setIsLoading(false);
-    };
+  const getQuizApi = async () => {
+    setIsLoading(true);
+    const response = await QuizApi.getQuizData();
+    const { results } = response;
+    const newQuestions = mappedQuestions(results);
+    setQuestions(newQuestions);
+    setIsLoading(false);
+  };
 
+  useEffect(() => {
     if (!renderAfterCalled.current) {
       try {
         getQuizApi();
@@ -76,20 +73,21 @@ export const QuizProvider: React.FC<React.PropsWithChildren> = ({
       }
     }
     renderAfterCalled.current = true;
-  }, []);
+  });
 
-  const updateQuiz: UpdateQuizType = (
-    questionData: QuestionType[]
-  ): QuestionType[] => {
-    setQuestions(questionData);
-    return questions;
+  const resetQuiz = async () => {
+    try {
+      await getQuizApi();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
     <QuizContext.Provider
       value={{
         questions,
-        updateQuiz,
+        resetQuiz,
         quizData: QUIZ_DATA_DEFAULT_VALUE,
         isLoading,
       }}

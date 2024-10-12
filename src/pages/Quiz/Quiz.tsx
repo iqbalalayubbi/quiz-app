@@ -4,9 +4,17 @@ import {
   LogoutOutlined,
   Spin,
 } from "~/libs/components/components";
-import { QuizContext } from "~/libs/context/contexts";
-import { useContext, useState, useCallback } from "~/libs/hooks/hooks";
-import { type QuizContextType } from "~/libs/context/quiz/QuizContext";
+import { QuizContext, TimerContext } from "~/libs/context/contexts";
+import {
+  useContext,
+  useState,
+  useCallback,
+  useEffect,
+} from "~/libs/hooks/hooks";
+import {
+  type QuizContextType,
+  type TimerContextType,
+} from "~/libs/context/types";
 import { Question, Result } from "./libs/components/components";
 import {
   DEFAULT_SCORE,
@@ -14,12 +22,17 @@ import {
   START_QUESTION_NUMBER,
   QUESTION_STEP,
   NO_ANSWERED,
+  START_QUESTION_INDEX,
 } from "./libs/constants/constants";
 
 import styles from "./styles.module.css";
 
 const Quiz: React.FC = () => {
-  const { questions, quizData, isLoading } = useContext(
+  const { displayTime, isTimeOver, handleStartTimer } = useContext(
+    TimerContext
+  ) as TimerContextType;
+
+  const { questions, quizData, isLoading, resetQuiz } = useContext(
     QuizContext
   ) as QuizContextType;
 
@@ -32,6 +45,21 @@ const Quiz: React.FC = () => {
     START_QUESTION_NUMBER
   );
   const [totalAnswer, setTotalAnswer] = useState<number>(NO_ANSWERED);
+
+  const createNewQuestion = useCallback(() => {
+    resetQuiz();
+    quizData.currentQuestion = START_QUESTION_INDEX;
+    setTotalAnswer(NO_ANSWERED);
+    setCurrentQuestionNumber(START_QUESTION_NUMBER);
+    setIsQuestionEnd(false);
+    setScore(DEFAULT_SCORE);
+  }, [
+    setCurrentQuestionNumber,
+    setIsQuestionEnd,
+    setScore,
+    quizData,
+    resetQuiz,
+  ]);
 
   const onAnswer = useCallback(
     (answer: string) => {
@@ -53,12 +81,18 @@ const Quiz: React.FC = () => {
     [setScore, quizData, quizQuestion, currentQuestionNumber, totalQuestion]
   );
 
+  useEffect(() => {
+    if (!isLoading) {
+      handleStartTimer();
+    }
+  }, [isLoading, handleStartTimer]);
+
   return (
     <>
       <Flex className={styles["navbar"]} justify="space-between">
         <Flex className={styles["clock-container"]} align="center" gap={"8px"}>
           <ClockCircleOutlined className={styles["clock-icon"]} />
-          <span>05:00</span>
+          <span>{displayTime}</span>
         </Flex>
         <h1 className={styles["title"]}>Quizea</h1>
         <Flex className={styles["logout-container"]} align="center" gap={"8px"}>
@@ -66,11 +100,12 @@ const Quiz: React.FC = () => {
           <span>Logout</span>
         </Flex>
       </Flex>
-      {isQuestionEnd ? (
+      {isQuestionEnd || isTimeOver ? (
         <Result
           score={score}
           totalQuestion={totalQuestion}
           totalAnswer={totalAnswer}
+          createNewQuestion={createNewQuestion}
         />
       ) : isLoading ? (
         <Flex

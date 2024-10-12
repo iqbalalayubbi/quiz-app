@@ -9,15 +9,19 @@ import { TokenStorage } from "~/libs/storage/storage";
 const MainMenu: React.FC = () => {
   const navigate = useNavigate();
 
-  const handleStartGame = useCallback(() => {
+  const handleStartGame = () => {
+    navigate(AppRoute.QUIZ);
+  };
+
+  const clickStartGame = () => {
     Modal.confirm({
       title: "Start Quiz",
       content: "Are you sure you want to start the quiz?",
-      onOk: () => navigate(AppRoute.QUIZ),
+      onOk: handleStartGame,
       okCancel: true,
       centered: true,
     });
-  }, [navigate]);
+  };
 
   const handleLogout = useCallback(() => {
     Modal.error({
@@ -46,7 +50,7 @@ const MainMenu: React.FC = () => {
           htmlType="button"
           name="startQuiz"
           type="primary"
-          onClick={handleStartGame}
+          onClick={clickStartGame}
         />
         <Button
           label="Exit"

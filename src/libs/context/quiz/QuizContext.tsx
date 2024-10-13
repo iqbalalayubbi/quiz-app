@@ -3,21 +3,13 @@ import { useState } from "~/libs/hooks/hooks";
 import { QuestionType, QuizData } from "./libs/types/types";
 import { QUIZ_DATA_DEFAULT_VALUE } from "./libs/constants/constants";
 import { QuizApi } from "~/libs/api/api";
+import { type Question as QuestionResponse } from "~/libs/types/types";
 
 export type QuizContextType = {
   questions: QuestionType[];
   getQuizApi: () => void;
   quizData: QuizData;
   isLoading: boolean;
-};
-
-type QuestionResponse = {
-  type: string;
-  difficulty: string;
-  category: string;
-  question: string;
-  correct_answer: string;
-  incorrect_answers: string[];
 };
 
 export const QuizContext = createContext<QuizContextType | null>(null);

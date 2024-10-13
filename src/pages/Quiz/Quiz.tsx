@@ -3,7 +3,6 @@ import {
   ClockCircleOutlined,
   LogoutOutlined,
   Spin,
-  Modal,
 } from "~/libs/components/components";
 import { QuizContext, TimerContext } from "~/libs/context/contexts";
 import {
@@ -92,15 +91,6 @@ const Quiz: React.FC = () => {
 
   const handleBeforeUnloaded = useCallback((event: BeforeUnloadEvent) => {
     event.preventDefault();
-    Modal.confirm({
-      title: "Are you sure you want to exit?",
-      content: "Your progress will be lost if you exit.",
-      onOk: () => {
-        window.location.reload();
-      },
-      okCancel: true,
-      centered: true,
-    });
   }, []);
 
   useEffect(() => {

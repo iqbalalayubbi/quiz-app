@@ -1,11 +1,17 @@
 import { Flex, Button, Modal } from "~/libs/components/components";
-import { useCallback, useNavigate, useContext } from "~/libs/hooks/hooks";
+import {
+  useCallback,
+  useNavigate,
+  useContext,
+  useEffect,
+} from "~/libs/hooks/hooks";
 import { TimerContextType } from "~/libs/context/types";
 import { TimerContext } from "~/libs/context/contexts";
 import { combineClassNames } from "~/libs/helpers/helpers";
 import { AppRoute } from "~/libs/enums/enums";
 
 import styles from "./styles.module.css";
+import { QuizStorage } from "~/libs/storage/storage";
 
 type Properties = {
   score: number;
@@ -42,6 +48,10 @@ const Result: React.FC<Properties> = ({
   const handleBackToMenu = () => {
     navigate(AppRoute.ROOT);
   };
+
+  useEffect(() => {
+    QuizStorage.removeResumeQuiz();
+  }, []);
 
   return (
     <Flex className={styles["container"]} align="center" vertical>

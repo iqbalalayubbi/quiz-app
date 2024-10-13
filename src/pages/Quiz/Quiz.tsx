@@ -158,7 +158,6 @@ const Quiz: React.FC = () => {
     window.addEventListener("beforeunload", handleBeforeUnloaded);
     return () => {
       window.removeEventListener("beforeunload", handleBeforeUnloaded);
-      QuizStorage.removeResumeQuiz();
     };
   }, [handleBeforeUnloaded]);
 

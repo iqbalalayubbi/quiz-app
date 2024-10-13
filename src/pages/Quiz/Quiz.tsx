@@ -10,6 +10,7 @@ import {
   useState,
   useCallback,
   useEffect,
+  useRef,
 } from "~/libs/hooks/hooks";
 import {
   type QuizContextType,
@@ -28,11 +29,11 @@ import {
 import styles from "./styles.module.css";
 
 const Quiz: React.FC = () => {
-  const { displayTime, isTimeOver, handleStartTimer } = useContext(
+  const { displayTime, isTimeOver, resetTimer, countdown } = useContext(
     TimerContext
   ) as TimerContextType;
 
-  const { questions, quizData, isLoading, resetQuiz } = useContext(
+  const { questions, quizData, isLoading, getQuizApi } = useContext(
     QuizContext
   ) as QuizContextType;
 
@@ -46,8 +47,12 @@ const Quiz: React.FC = () => {
   );
   const [totalAnswer, setTotalAnswer] = useState<number>(NO_ANSWERED);
 
+  const renderAfterCalled = useRef(false);
+
   const createNewQuestion = useCallback(() => {
-    resetQuiz();
+    countdown();
+    resetTimer();
+    getQuizApi();
     quizData.currentQuestion = START_QUESTION_INDEX;
     setTotalAnswer(NO_ANSWERED);
     setCurrentQuestionNumber(START_QUESTION_NUMBER);
@@ -58,7 +63,9 @@ const Quiz: React.FC = () => {
     setIsQuestionEnd,
     setScore,
     quizData,
-    resetQuiz,
+    countdown,
+    resetTimer,
+    getQuizApi,
   ]);
 
   const onAnswer = useCallback(
@@ -76,16 +83,18 @@ const Quiz: React.FC = () => {
         );
       } else {
         setIsQuestionEnd(true);
+        renderAfterCalled.current = false;
       }
     },
     [setScore, quizData, quizQuestion, currentQuestionNumber, totalQuestion]
   );
 
   useEffect(() => {
-    if (!isLoading) {
-      handleStartTimer();
+    if (!renderAfterCalled.current) {
+      createNewQuestion();
     }
-  }, [isLoading, handleStartTimer]);
+    renderAfterCalled.current = true;
+  }, [createNewQuestion]);
 
   return (
     <>

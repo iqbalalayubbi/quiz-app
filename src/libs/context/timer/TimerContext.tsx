@@ -11,14 +11,13 @@ import {
   convertTimeStringToSeconds,
   convertSecondsToString,
 } from "./helpers/helpers";
-import { useEffect } from "react";
 
 export type TimerContextType = {
   time: number;
   displayTime: string;
-  handleStartTimer: () => void;
   isTimeOver: boolean;
   resetTimer: () => void;
+  countdown: () => void;
 };
 
 export const TimerContext = createContext<TimerContextType | null>(null);
@@ -27,14 +26,14 @@ export const TimerProvider: React.FC<React.PropsWithChildren> = ({
   children,
 }) => {
   const [time, setTime] = useState<string>(DEFAULT_TIMER_IN_STRING);
-  const [isTimerStarted, setIsTimerStarted] = useState<boolean>(false);
   const [, setSeconds] = useState<number>(convertTimeStringToSeconds(time));
   const [isTimeOver, setIsTimeOver] = useState<boolean>(false);
 
   const countdown = useCallback(() => {
+    console.log("countdown");
     const interval = setInterval(() => {
       setSeconds((prevSeconds) => {
-        if (prevSeconds > START_SECOND && isTimerStarted) {
+        if (prevSeconds > START_SECOND) {
           const newSecond = prevSeconds - COUNTDOWN_STEP;
           setTime(convertSecondsToString(newSecond));
           return newSecond;
@@ -45,31 +44,20 @@ export const TimerProvider: React.FC<React.PropsWithChildren> = ({
         }
       });
     }, ONE_SECOND_IN_MS);
-  }, [setSeconds, setTime, setIsTimeOver, isTimerStarted]);
-
-  const handleStartTimer = useCallback(() => {
-    setIsTimerStarted(true);
-  }, [setIsTimerStarted]);
+  }, [setSeconds, setTime, setIsTimeOver]);
 
   const resetTimer = () => {
-    setIsTimerStarted(false);
     setTime(DEFAULT_TIMER_IN_STRING);
     setSeconds(convertTimeStringToSeconds(DEFAULT_TIMER_IN_STRING));
     setIsTimeOver(false);
   };
 
-  useEffect(() => {
-    if (isTimerStarted) {
-      countdown();
-    }
-  }, [isTimerStarted, countdown]);
-
   const DEFAULT_TIMER_CONTEXT_VALUE: TimerContextType = {
     time: DEFAULT_TIMER_IN_SECOND,
     displayTime: time,
-    handleStartTimer,
     isTimeOver,
     resetTimer,
+    countdown,
   };
 
   return (

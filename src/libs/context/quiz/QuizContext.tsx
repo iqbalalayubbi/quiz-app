@@ -1,12 +1,12 @@
 import { createContext } from "~/libs/components/components";
-import { useState, useRef, useEffect } from "~/libs/hooks/hooks";
+import { useState } from "~/libs/hooks/hooks";
 import { QuestionType, QuizData } from "./libs/types/types";
 import { QUIZ_DATA_DEFAULT_VALUE } from "./libs/constants/constants";
 import { QuizApi } from "~/libs/api/api";
 
 export type QuizContextType = {
   questions: QuestionType[];
-  resetQuiz: () => void;
+  getQuizApi: () => void;
   quizData: QuizData;
   isLoading: boolean;
 };
@@ -25,7 +25,6 @@ export const QuizContext = createContext<QuizContextType | null>(null);
 export const QuizProvider: React.FC<React.PropsWithChildren> = ({
   children,
 }) => {
-  const renderAfterCalled = useRef(false);
   const [questions, setQuestions] = useState<QuestionType[]>([
     {
       question: "What is the capital of France?",
@@ -60,36 +59,18 @@ export const QuizProvider: React.FC<React.PropsWithChildren> = ({
     const response = await QuizApi.getQuizData();
     const { results } = response;
     const newQuestions = mappedQuestions(results);
+    console.log(newQuestions);
     setQuestions(newQuestions);
     setIsLoading(false);
-  };
-
-  useEffect(() => {
-    if (!renderAfterCalled.current) {
-      try {
-        getQuizApi();
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    renderAfterCalled.current = true;
-  });
-
-  const resetQuiz = async () => {
-    try {
-      await getQuizApi();
-    } catch (error) {
-      console.log(error);
-    }
   };
 
   return (
     <QuizContext.Provider
       value={{
         questions,
-        resetQuiz,
         quizData: QUIZ_DATA_DEFAULT_VALUE,
         isLoading,
+        getQuizApi,
       }}
     >
       {children}

@@ -31,8 +31,8 @@ const Result: React.FC<Properties> = ({
       title: "Play Again",
       content: "Are you sure you want to play again?",
       onOk: () => {
-        createNewQuestion();
         resetTimer();
+        createNewQuestion();
       },
       okCancel: true,
       centered: true,
@@ -40,8 +40,6 @@ const Result: React.FC<Properties> = ({
   }, [createNewQuestion, resetTimer]);
 
   const handleBackToMenu = () => {
-    createNewQuestion();
-    resetTimer();
     navigate(AppRoute.ROOT);
   };
 

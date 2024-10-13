@@ -1,13 +1,23 @@
 import { Flex, Modal } from "antd";
 import { Button } from "~/libs/components/components";
-import { useCallback, useNavigate } from "~/libs/hooks/hooks";
+import {
+  useCallback,
+  useEffect,
+  useNavigate,
+  useState,
+} from "~/libs/hooks/hooks";
+
+import { AppRoute } from "~/libs/enums/enums";
+import { QuizStorage, TokenStorage } from "~/libs/storage/storage";
+import { ButtonStatusText } from "./enums/enums";
 
 import styles from "./styles.module.css";
-import { AppRoute } from "~/libs/enums/enums";
-import { TokenStorage } from "~/libs/storage/storage";
 
 const MainMenu: React.FC = () => {
   const navigate = useNavigate();
+  const [textStatusButton, setTextStatusButton] = useState<string>(
+    ButtonStatusText.START
+  );
 
   const handleStartGame = () => {
     navigate(AppRoute.QUIZ);
@@ -37,6 +47,15 @@ const MainMenu: React.FC = () => {
     });
   }, [navigate]);
 
+  useEffect(() => {
+    const hasResumeQuiz = QuizStorage.hasResumeQuiz();
+    if (hasResumeQuiz) {
+      setTextStatusButton(ButtonStatusText.RESUME);
+    } else {
+      setTextStatusButton(ButtonStatusText.START);
+    }
+  }, []);
+
   return (
     <Flex
       className={styles["container"]}
@@ -47,14 +66,14 @@ const MainMenu: React.FC = () => {
       <h1 className={styles["title"]}>Quizea</h1>
       <Flex className={styles["buttons"]} gap={"16px"} vertical>
         <Button
-          label="Start Quiz"
+          label={textStatusButton}
           htmlType="button"
           name="startQuiz"
           type="primary"
           onClick={clickStartGame}
         />
         <Button
-          label="Exit"
+          label={ButtonStatusText.EXIT}
           htmlType="button"
           name="logout"
           type="secondary"

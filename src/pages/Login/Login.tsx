@@ -1,16 +1,18 @@
 import { Form, Input, Flex } from "antd";
-import { Button } from "~/libs/components/components";
+import { Button, Alert } from "~/libs/components/components";
 import { FieldTypes } from "./libs/types/types";
 import type { FormProps } from "antd";
 import { USERNAME, PASSWORD } from "./libs/constants/constants";
 
-import styles from "./styles.module.css";
 import { TokenStorage } from "~/libs/storage/storage";
-import { useNavigate } from "~/libs/hooks/hooks";
+import { useNavigate, useState } from "~/libs/hooks/hooks";
 import { AppRoute } from "~/libs/enums/enums";
+
+import styles from "./styles.module.css";
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
+  const [isInvalid, setIsInvalid] = useState<boolean>(false);
 
   const handleLoginUser: FormProps<FieldTypes>["onFinish"] = (values) => {
     const { username, password } = values;
@@ -18,6 +20,8 @@ const Login: React.FC = () => {
     if (username === USERNAME && password === PASSWORD) {
       TokenStorage.setToken(username);
       navigate(AppRoute.ROOT);
+    } else {
+      setIsInvalid(true);
     }
   };
 
@@ -40,6 +44,14 @@ const Login: React.FC = () => {
         vertical
       >
         <h1 className={styles["sub-title"]}>Login</h1>
+        {isInvalid && (
+          <Alert
+            className={styles["error-alert"]}
+            message="Invalid username or password"
+            type="error"
+            banner
+          />
+        )}
         <Form
           className={styles["form-login"]}
           name="form-login"
@@ -58,7 +70,7 @@ const Login: React.FC = () => {
           >
             <Input placeholder="password" type="password" />
           </Form.Item>
-          <Button htmlType="submit" type="primary" label="Login" />
+          <Button htmlType="submit" type="primary" label="Login" name="login" />
         </Form>
       </Flex>
     </Flex>

@@ -24,6 +24,7 @@ export default tseslint.config(
         { allowConstantExport: true },
       ],
       "no-magic-numbers": ["error"],
+      "no-console": ["error"],
     },
   }
 );

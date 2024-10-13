@@ -59,7 +59,6 @@ export const QuizProvider: React.FC<React.PropsWithChildren> = ({
     const response = await QuizApi.getQuizData();
     const { results } = response;
     const newQuestions = mappedQuestions(results);
-    console.log(newQuestions);
     setQuestions(newQuestions);
     setIsLoading(false);
   };

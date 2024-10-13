@@ -30,7 +30,6 @@ export const TimerProvider: React.FC<React.PropsWithChildren> = ({
   const [isTimeOver, setIsTimeOver] = useState<boolean>(false);
 
   const countdown = useCallback(() => {
-    console.log("countdown");
     const interval = setInterval(() => {
       setSeconds((prevSeconds) => {
         if (prevSeconds > START_SECOND) {

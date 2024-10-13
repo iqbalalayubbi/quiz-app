@@ -27,6 +27,7 @@ import {
 } from "./libs/constants/constants";
 
 import styles from "./styles.module.css";
+import { TokenStorage } from "~/libs/storage/storage";
 
 const Quiz: React.FC = () => {
   const { displayTime, isTimeOver, resetTimer, countdown } = useContext(
@@ -91,6 +92,8 @@ const Quiz: React.FC = () => {
 
   const handleBeforeUnloaded = useCallback((event: BeforeUnloadEvent) => {
     event.preventDefault();
+    TokenStorage.removeToken();
+    window.location.reload();
   }, []);
 
   useEffect(() => {

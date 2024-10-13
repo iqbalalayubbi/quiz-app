@@ -20,3 +20,8 @@
 .logout-container {
   color: red;
 }
+
+.logout-container:hover {
+  color: rgb(179, 0, 0);
+  cursor: pointer;
+}

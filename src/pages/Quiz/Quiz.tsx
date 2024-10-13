@@ -1,9 +1,4 @@
-import {
-  Flex,
-  ClockCircleOutlined,
-  LogoutOutlined,
-  Spin,
-} from "~/libs/components/components";
+import { Flex, Spin } from "~/libs/components/components";
 import { QuizContext, TimerContext } from "~/libs/context/contexts";
 import {
   useContext,
@@ -16,7 +11,7 @@ import {
   type QuizContextType,
   type TimerContextType,
 } from "~/libs/context/types";
-import { Question, Result } from "./libs/components/components";
+import { Navbar, Question, Result } from "./libs/components/components";
 import {
   DEFAULT_SCORE,
   CORRECT_POINT,
@@ -161,27 +156,20 @@ const Quiz: React.FC = () => {
     };
   }, [handleBeforeUnloaded]);
 
-  return (
-    <>
-      <Flex className={styles["navbar"]} justify="space-between">
-        <Flex className={styles["clock-container"]} align="center" gap={"8px"}>
-          <ClockCircleOutlined className={styles["clock-icon"]} />
-          <span>{displayTime}</span>
-        </Flex>
-        <h1 className={styles["title"]}>Quizea</h1>
-        <Flex className={styles["logout-container"]} align="center" gap={"8px"}>
-          <LogoutOutlined className={styles["logout-icon"]} />
-          <span>Logout</span>
-        </Flex>
-      </Flex>
-      {isQuestionEnd || isTimeOver ? (
+  const showScreen = () => {
+    if (isQuestionEnd || isTimeOver) {
+      return (
         <Result
           score={score}
           totalQuestion={totalQuestion}
           totalAnswer={totalAnswer}
           createNewQuestion={createNewQuestion}
         />
-      ) : isLoading ? (
+      );
+    }
+
+    if (isLoading) {
+      return (
         <Flex
           className={styles["loading-container"]}
           justify="center"
@@ -189,14 +177,24 @@ const Quiz: React.FC = () => {
         >
           <Spin size="large" />
         </Flex>
-      ) : (
-        <Question
-          currentQuestionNumber={currentQuestionNumber}
-          totalQuestion={totalQuestion}
-          quizQuestion={quizQuestion}
-          onAnswer={onAnswer}
-        />
-      )}
+      );
+    }
+
+    return (
+      <Question
+        currentQuestionNumber={currentQuestionNumber}
+        totalQuestion={totalQuestion}
+        quizQuestion={quizQuestion}
+        onAnswer={onAnswer}
+      />
+    );
+  };
+
+  return (
+    <>
+      <Navbar />
+
+      {showScreen()}
     </>
   );
 };

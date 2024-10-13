@@ -1,0 +1,22 @@
+.navbar {
+  padding: 16px 24px;
+  box-shadow: 1px 2px 4px 0px rgba(0, 0, 0, 0.1);
+}
+
+.clock-icon,
+.logout-icon {
+  font-size: 25px;
+}
+
+.clock-container {
+  color: var(--black);
+}
+
+.title {
+  font-size: 40px;
+  color: var(--primary);
+}
+
+.logout-container {
+  color: red;
+}

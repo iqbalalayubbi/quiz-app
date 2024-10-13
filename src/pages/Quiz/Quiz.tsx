@@ -25,18 +25,16 @@ import {
   NO_ANSWERED,
   START_QUESTION_INDEX,
 } from "./libs/constants/constants";
-import { TokenStorage } from "~/libs/storage/storage";
+import { QuizStorage, TokenStorage } from "~/libs/storage/storage";
 
 import styles from "./styles.module.css";
 
 const Quiz: React.FC = () => {
-  const { displayTime, isTimeOver, resetTimer, countdown } = useContext(
-    TimerContext
-  ) as TimerContextType;
+  const { displayTime, isTimeOver, resumeDisplayTime, resetTimer, countdown } =
+    useContext(TimerContext) as TimerContextType;
 
-  const { questions, quizData, isLoading, getQuizApi } = useContext(
-    QuizContext
-  ) as QuizContextType;
+  const { questions, quizData, isLoading, getQuizApi, updateQuestions } =
+    useContext(QuizContext) as QuizContextType;
 
   const quizQuestion = questions[quizData.currentQuestion];
   const totalQuestion = questions.length;
@@ -90,21 +88,69 @@ const Quiz: React.FC = () => {
     [setScore, quizData, quizQuestion, currentQuestionNumber, totalQuestion]
   );
 
-  const handleBeforeUnloaded = useCallback((event: BeforeUnloadEvent) => {
-    event.preventDefault();
-    TokenStorage.removeToken();
-    window.location.reload();
-  }, []);
+  const handleBeforeUnloaded = useCallback(
+    (event: BeforeUnloadEvent) => {
+      if (!isTimeOver && !isQuestionEnd) {
+        event.preventDefault();
+        QuizStorage.setResumeQuiz({
+          questions,
+          displayTime,
+          currentQuestionNumber,
+          totalAnswer,
+          score,
+        });
+        TokenStorage.removeToken();
+        window.location.reload();
+      }
+    },
+    [
+      displayTime,
+      isTimeOver,
+      isQuestionEnd,
+      questions,
+      currentQuestionNumber,
+      totalAnswer,
+      score,
+    ]
+  );
+
+  const resumeQuiz = useCallback(() => {
+    const resumeQuizData = QuizStorage.getResumeQuiz();
+    if (resumeQuizData) {
+      updateQuestions(resumeQuizData.questions);
+      setScore(resumeQuizData.score);
+      setCurrentQuestionNumber(resumeQuizData.currentQuestionNumber);
+      resumeDisplayTime(resumeQuizData.displayTime);
+      setTotalAnswer(resumeQuizData.totalAnswer);
+      setIsQuestionEnd(false);
+    }
+  }, [
+    updateQuestions,
+    setScore,
+    setCurrentQuestionNumber,
+    resumeDisplayTime,
+    setTotalAnswer,
+    setIsQuestionEnd,
+  ]);
 
   useEffect(() => {
+    const hasResumeQuiz = QuizStorage.hasResumeQuiz();
     if (!renderAfterCalled.current) {
-      createNewQuestion();
+      if (hasResumeQuiz) {
+        resumeQuiz();
+      } else {
+        createNewQuestion();
+      }
     }
+
     renderAfterCalled.current = true;
-  }, [createNewQuestion]);
+  }, [createNewQuestion, resumeQuiz]);
 
   useEffect(() => {
     window.addEventListener("beforeunload", handleBeforeUnloaded);
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnloaded);
+    };
   }, [handleBeforeUnloaded]);
 
   return (

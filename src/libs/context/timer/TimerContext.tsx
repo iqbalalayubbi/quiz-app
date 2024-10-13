@@ -18,6 +18,7 @@ export type TimerContextType = {
   isTimeOver: boolean;
   resetTimer: () => void;
   countdown: () => void;
+  resumeDisplayTime: (resumeTime: string) => void;
 };
 
 export const TimerContext = createContext<TimerContextType | null>(null);
@@ -51,12 +52,19 @@ export const TimerProvider: React.FC<React.PropsWithChildren> = ({
     setIsTimeOver(false);
   };
 
+  const resumeDisplayTime = (resumeTime: string) => {
+    setTime(resumeTime);
+    setSeconds(convertTimeStringToSeconds(resumeTime));
+    countdown();
+  };
+
   const DEFAULT_TIMER_CONTEXT_VALUE: TimerContextType = {
     time: DEFAULT_TIMER_IN_SECOND,
     displayTime: time,
     isTimeOver,
     resetTimer,
     countdown,
+    resumeDisplayTime,
   };
 
   return (

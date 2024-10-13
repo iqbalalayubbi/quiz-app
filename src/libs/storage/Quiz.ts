@@ -19,6 +19,15 @@ class Quiz extends BaseStorage {
   setResumeQuiz(resumeQuizData: QuizData) {
     super.set(StorageKeys.QUIZ_KEY, JSON.stringify(resumeQuizData));
   }
+
+  removeResumeQuiz(): void {
+    super.remove(StorageKeys.QUIZ_KEY);
+  }
+
+  hasResumeQuiz(): boolean {
+    const resumeQuizData = this.getResumeQuiz();
+    return Boolean(resumeQuizData);
+  }
 }
 
 export { Quiz };

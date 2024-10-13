@@ -30,6 +30,7 @@ const MainMenu: React.FC = () => {
       onOk: () => {
         navigate(AppRoute.LOGIN);
         TokenStorage.removeToken();
+        window.location.reload();
       },
       okCancel: true,
       centered: true,

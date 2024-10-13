@@ -4,6 +4,7 @@ const START_QUESTION_NUMBER = 1;
 const QUESTION_STEP = 1;
 const NO_ANSWERED = 0;
 const START_QUESTION_INDEX = 0;
+const ZERO_TIMER = "00:00";
 
 export {
   DEFAULT_SCORE,
@@ -12,4 +13,5 @@ export {
   QUESTION_STEP,
   NO_ANSWERED,
   START_QUESTION_INDEX,
+  ZERO_TIMER,
 };

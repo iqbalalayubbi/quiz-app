@@ -24,6 +24,7 @@ import {
   QUESTION_STEP,
   NO_ANSWERED,
   START_QUESTION_INDEX,
+  ZERO_TIMER,
 } from "./libs/constants/constants";
 import { QuizStorage, TokenStorage } from "~/libs/storage/storage";
 
@@ -82,10 +83,17 @@ const Quiz: React.FC = () => {
         );
       } else {
         setIsQuestionEnd(true);
-        renderAfterCalled.current = false;
+        resumeDisplayTime(ZERO_TIMER);
       }
     },
-    [setScore, quizData, quizQuestion, currentQuestionNumber, totalQuestion]
+    [
+      setScore,
+      quizData,
+      quizQuestion,
+      currentQuestionNumber,
+      totalQuestion,
+      resumeDisplayTime,
+    ]
   );
 
   const handleBeforeUnloaded = useCallback(
@@ -150,6 +158,7 @@ const Quiz: React.FC = () => {
     window.addEventListener("beforeunload", handleBeforeUnloaded);
     return () => {
       window.removeEventListener("beforeunload", handleBeforeUnloaded);
+      QuizStorage.removeResumeQuiz();
     };
   }, [handleBeforeUnloaded]);
 

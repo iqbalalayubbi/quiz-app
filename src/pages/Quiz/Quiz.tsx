@@ -25,9 +25,9 @@ import {
   NO_ANSWERED,
   START_QUESTION_INDEX,
 } from "./libs/constants/constants";
+import { TokenStorage } from "~/libs/storage/storage";
 
 import styles from "./styles.module.css";
-import { TokenStorage } from "~/libs/storage/storage";
 
 const Quiz: React.FC = () => {
   const { displayTime, isTimeOver, resetTimer, countdown } = useContext(

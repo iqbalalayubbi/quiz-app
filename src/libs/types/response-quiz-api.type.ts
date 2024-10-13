@@ -1,8 +1,8 @@
-import { type Question } from "./question.type";
+import { type QuestionResponse } from "./question-response.type";
 
 type ResponseQuizApi = {
   response_code: number;
-  results: Question[];
+  results: QuestionResponse[];
 };
 
 export { type ResponseQuizApi };

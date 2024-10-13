@@ -3,13 +3,14 @@ import { useState } from "~/libs/hooks/hooks";
 import { QuestionType, QuizData } from "./libs/types/types";
 import { QUIZ_DATA_DEFAULT_VALUE } from "./libs/constants/constants";
 import { QuizApi } from "~/libs/api/api";
-import { type Question as QuestionResponse } from "~/libs/types/types";
+import { type QuestionResponse } from "~/libs/types/types";
 
 export type QuizContextType = {
   questions: QuestionType[];
   getQuizApi: () => void;
   quizData: QuizData;
   isLoading: boolean;
+  updateQuestions: (question: QuestionType[]) => void;
 };
 
 export const QuizContext = createContext<QuizContextType | null>(null);
@@ -55,6 +56,12 @@ export const QuizProvider: React.FC<React.PropsWithChildren> = ({
     setIsLoading(false);
   };
 
+  const updateQuestions = (newQuestions: QuestionType[]) => {
+    setIsLoading(true);
+    setQuestions(newQuestions);
+    setIsLoading(false);
+  };
+
   return (
     <QuizContext.Provider
       value={{
@@ -62,6 +69,7 @@ export const QuizProvider: React.FC<React.PropsWithChildren> = ({
         quizData: QUIZ_DATA_DEFAULT_VALUE,
         isLoading,
         getQuizApi,
+        updateQuestions,
       }}
     >
       {children}

@@ -1,50 +1,36 @@
-# React + TypeScript + Vite
+# QUIZEA
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A simple quiz application built using [React JS](https://react.dev/) that fetches questions from the [Trvia Database](https://opentdb.com/)
 
-Currently, two official plugins are available:
+## Tech Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- [ReactJS](https://react.dev/ "ReactJS") : Frontend framework
+- [PNPM](https://pnpm.io/id/ "PNPM") : Package manager
+- [Antd](https://ant.design/ "Antd") : UI component framework for react JS
+- [husky](https://typicode.github.io/husky/get-started.html "husky") : Pre-commit hooks for linting and testing
+- [commit conventional](https://www.conventionalcommits.org/en/v1.0.0/ "commit conventional") : Standardized commit messages
 
-## Expanding the ESLint configuration
+## Folder Structure
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- **libs** : Contains all configurations used in the project.
+- **assets** : Stores static assets such as CSS, images, etc.
+- **pages** : Includes all pages used in this project.
 
-- Configure the top-level `parserOptions` property like this:
+# Project Setup
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+## Clone the Repository
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+`git clone https://github.com/iqbalalayubbi/quiz-app.git`
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+## Install Dependencies
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+`pnpm install`
+
+## Run Server
+
+`pnpm run dev`
+
+### Note
+
+- Rename `.env.example` to `.env` before running the project.
+- **All credentials are stored in .env.example**
